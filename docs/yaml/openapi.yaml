@@ -1,21 +1,24 @@
 openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/shapestudent/ASM/1.0.0
+  - description: Web API ASM
+    url: https://https://blog-demo.realchbbq.repl.co/
 info:
-  version: 1.0.0
-  title: Back End Demonstration API
-  description: A simple blog API.
+  description: Web API ASM
+  version: "1.0.0"
+  title: Web API ASM
   contact:
-    name: Retirng Cheng sir
-    email: cycheng@vtc.edu.hk
+    email: 217104199@stu.vtc.edu.hk
   license:
     name: Apache 2.0
-    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
-servers:
-  - url: 'https://BScCOM-Blog-API-example.wongazta.repl.co'
-    description: Development server
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
-  - name: Users
+  - name: users
     description: API endpoints for user management.
-  - name: Articles
+  - name: articles
     description: Access and perform CRUD operations on blog entries.
 paths:
   /articles/{id}:
@@ -36,6 +39,7 @@ paths:
           description: View of articles 
         '404':
           description: Articles was not found in the DB.
+      
     post:
       tags:
         - Articles
@@ -70,4 +74,114 @@ paths:
           description: Delete confirmation.
         '404':
           description: Articles was not found in the DB.
+          
+          
+/users/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric id of the articles
+    get:
+      tags:
+        - users
+      description:
+        Get users by id.
+      responses:
+        '200':
+          description: View of users 
+        '404':
+          description: users was not found in the DB.
+      
+    post:
+      tags:
+        - users
+      description:
+        Create a new users.
+      requestBody:
+        description: All new users data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./users.json#/definitions/users
+      responses:
+        '201':
+          description: User created
+
+    put:
+      tags:
+        - users
+      description: Update users by ID.
+      responses:
+        '200':
+          description: Update confirmation and link to record.
+        '404':
+          description: users was not found in the DB.
+    delete:
+      tags:
+        - users
+      description: Delete users by ID.
+    responses:
+        '200':
+          description: Delete confirmation.
+        '404':
+          description: users was not found in the DB.
+          
+          
+/dogs/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Numeric id of the articles
+    get:
+      tags:
+        - dogs
+      description:
+        Get dogs by id.
+      responses:
+        '200':
+          description: View of dogs 
+        '404':
+          description: dogs was not found in the DB.
+      
+    post:
+      tags:
+        - dogs
+      description:
+        Create a new dog.
+      requestBody:
+        description: All new dogs data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./dogs.json#/definitions/dogs
+      responses:
+        '201':
+          description: dogs created
+
+    put:
+      tags:
+        - dogs
+      description: Update dogs by ID.
+      responses:
+        '200':
+          description: Update confirmation and link to record.
+        '404':
+          description: dogs was not found in the DB.
+    delete:
+      tags:
+        - dogs
+      description: Delete dogs by ID.
+    responses:
+        '200':
+          description: Delete confirmation.
+        '404':
+          description: dogs was not found in the DB.
 

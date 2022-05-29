@@ -4,6 +4,7 @@ CREATE TABLE public.users (
 	lastname varchar(32) NULL,
 	username varchar(16) NOT NULL,
 	about text NULL,
+  role varchar(64) NOT NULL DEFAULT "user",
 	dateregistered timestamp NOT NULL DEFAULT now(),
 	"password" varchar(32) NULL,
 	passwordsalt varchar(16) NULL,
