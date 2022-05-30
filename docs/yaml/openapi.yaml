@@ -20,168 +20,292 @@ tags:
     description: API endpoints for user management.
   - name: articles
     description: Access and perform CRUD operations on blog entries.
+  
 paths:
-  /articles/{id}:
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-        description: Numeric id of the articles
+  /api/v1/dogs:
     get:
-      tags:
-        - Articles
-      description:
-        Get articles by id.
+      description: Returns a list of dog              
       responses:
         '200':
-          description: View of articles 
-        '404':
-          description: Articles was not found in the DB.
-      
+          description: Successful response
+          
     post:
-      tags:
-        - Articles
-      description:
-        Create a new article.
+      security: 
+      - BasicAuth: []
+      description: Add a list of dog
       requestBody:
-        description: All new article data.
-        required: true
         content:
           application/json:
             schema:
-              $ref: ./article.json#/definitions/article
-      responses:
-        '201':
-          description: User created
-
-    put:
-      tags:
-        - Articles
-      description: Update articles by ID.
+              type: object
+              required:
+                - title
+                - summary
+                - size
+              properties:
+                authorid:
+                  type: number
+                imageurl:
+                  type: string
+                summary:
+                  type: string
+                title:
+                  type: string
+                size:
+                  type: string
       responses:
         '200':
-          description: Update confirmation and link to record.
-        '404':
-          description: Articles was not found in the DB.
-    delete:
-      tags:
-        - Articles
-      description: Delete articles by ID.
-    responses:
-        '200':
-          description: Delete confirmation.
-        '404':
-          description: Articles was not found in the DB.
-          
-          
-/users/{id}:
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-        description: Numeric id of the articles
+          description: Successful response
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string  
+                    
+  /api/v1/dogs/{id}:
     get:
-      tags:
-        - users
-      description:
-        Get users by id.
+      description: Returns a dog     
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      
       responses:
         '200':
-          description: View of users 
-        '404':
-          description: users was not found in the DB.
-      
-    post:
-      tags:
-        - users
-      description:
-        Create a new users.
+          description: Successful response
+    put:
+      description: edit a dog  
+      security: 
+        - BasicAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
       requestBody:
-        description: All new users data.
-        required: true
         content:
           application/json:
             schema:
-              $ref: ./users.json#/definitions/users
-      responses:
-        '201':
-          description: User created
-
-    put:
-      tags:
-        - users
-      description: Update users by ID.
+              type: object
+              required:
+                - title
+                - summary
+                - size
+              properties:
+                authorid:
+                  type: number
+                imageurl:
+                  type: string
+                summary:
+                  type: string
+                title:
+                  type: string
+                size:
+                  type: string
       responses:
         '200':
-          description: Update confirmation and link to record.
-        '404':
-          description: users was not found in the DB.
+          description: Successful response
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string  
     delete:
-      tags:
-        - users
-      description: Delete users by ID.
-    responses:
-        '200':
-          description: Delete confirmation.
-        '404':
-          description: users was not found in the DB.
-          
-          
-/dogs/{id}:
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-        description: Numeric id of the articles
-    get:
-      tags:
-        - dogs
-      description:
-        Get dogs by id.
+      description: del a dog  
+      security: 
+        - BasicAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
       responses:
         '200':
-          description: View of dogs 
-        '404':
-          description: dogs was not found in the DB.
-      
+          description: Successful response
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string  
+                    
+  /api/v1/dogs/{id}/likes:
+    get:
+      description: Returns likes of a dog 
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Successful response
     post:
-      tags:
-        - dogs
-      description:
-        Create a new dog.
+      description: add likes to a dog 
+      security: 
+        - BasicAuth: []
       requestBody:
-        description: All new dogs data.
-        required: true
         content:
           application/json:
             schema:
-              $ref: ./dogs.json#/definitions/dogs
+              type: object
+              required:
+                - userid
+              properties:
+                userid:
+                  type: number
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      
       responses:
-        '201':
-          description: dogs created
+        '200':
+          description: Successful response
+    
+  
+  /api/v1/images:
+    post:
+      security: 
+        - BasicAuth: []
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+              format: string
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string  
+  /api/v1/users:
+    get:
+      security: 
+        - BasicAuth: []
+      description: Returns a list of users              
+      responses:
+        '200':
+          description: Successful response
+          
+    post:
+      description: create a users 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+                - email
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
 
+        
+      
+  /api/v1/users/search:
+    get:
+      security: 
+        - BasicAuth: []
+      description: search a list of users              
+      responses:
+        '200':
+          description: Successful response  
+  /api/v1/users/{id}:
+    get:
+      security: 
+        - BasicAuth: []
+      description: Returns a users  
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Successful response  
+          
     put:
-      tags:
-        - dogs
-      description: Update dogs by ID.
+      description: edit a users
+      security: 
+        - BasicAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number  
       responses:
         '200':
-          description: Update confirmation and link to record.
-        '404':
-          description: dogs was not found in the DB.
-    delete:
-      tags:
-        - dogs
-      description: Delete dogs by ID.
-    responses:
+          description: Successful response  
+  /api/v1/codes:
+    get:
+      description: show all code
+      security: 
+        - BasicAuth: []
+      responses:
         '200':
-          description: Delete confirmation.
-        '404':
-          description: dogs was not found in the DB.
-
+          description: Successful response
+  /api/v1/codes/{id}:  
+    get:
+      description: get code by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number  
+      security: 
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Successful response 
+          
+  
